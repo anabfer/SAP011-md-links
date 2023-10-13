@@ -4,6 +4,9 @@
   "engines": {
     "node": ">=16.x"
   },
+  "bin":	{
+    "md-links":	"./src/cli.js"
+  },
   "bootcamp": {
     "createdAt": "2023-09-20T11:50:43.165Z",
     "version": "6.2.0",
@@ -16,7 +19,7 @@
   },
   "scripts": {
     "lint": "npx eslint .",
-    "test": "jest"
+    "test": "jest --coverage"
   },
   "keywords": [],
   "author": "",

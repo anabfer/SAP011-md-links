@@ -1,8 +1,19 @@
 #!/usr/bin/env	node
-const mdLinks = require('./index.js');
 
-const inputs = process.argv;
-const path = inputs[2];
+const { mdLinks } = require('./index.js');
+const chalk = require('chalk');
 
-mdLinks(path);
+const path = process.argv[2];
+const options = {
+    validate: process.argv.includes('--validate'),
+    stats: process.argv.includes('--stats'),
+  };
+
+  console.log(chalk.blue('Hello world!'));
+
+mdLinks(path, options).then((links) => {
+    console.log(links)
+});
+
+
 

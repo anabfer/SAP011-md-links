@@ -14,12 +14,18 @@ function mdLinks(path, options) {
         file: path,
       })
       )
-      if (options.validate){
-        const validations = objLinks.map((link) =>
+      if(options.validate || options.stats){
+      const validations = objLinks.map((link) =>
           validateLink(link)
-        );
+        )
+      if (options.validate && !options.stats){
+        
         return Promise.all(validations);
+      }if (options.stats){
+       return Promise.all(validations).then((validateArray)=> 
+       statsLink(validateArray, options));
       }
+    }
       return objLinks;
     })
   };
@@ -43,9 +49,18 @@ function validateLink(link) {
   });
 }
 
+function statsLink(links) {
+  const totalLinks = links.length;
+  const uniqueLinks = [...new Set(links.map((link) => link.url))].length;
+  const brokenLinks = links.filter((link) => link.status !== 200).length;
+  return {
+    total: totalLinks,
+    unique: uniqueLinks,
+    broken: brokenLinks,
+  };
+}
 
-
-module.exports = { mdLinks, validateLink };
+module.exports = { mdLinks, validateLink, statsLink };
 
 
 

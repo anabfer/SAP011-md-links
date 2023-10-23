@@ -1,17 +1,20 @@
 const fs = require('fs');
+const path = require('path');
 
-function mdLinks(path, options) {
-  // ler o conteúdo
-    return fs.promises.readFile(path, 'utf8').then ((fileContent) => {
-      // Regex para identificar links
+function mdLinks(filePath, options) {
+  const absolutePath = path.resolve(filePath);
+    return fs.promises.readFile(filePath, 'utf8').then ((fileContent) => {
+      if (path.extname(absolutePath).toLowerCase() !== '.md') {
+        throw new Error('Incompatible file: not a Markdown file');
+      } else if (!fileContent) {
+        throw new Error('Unable to read the file because it is empty');
+      }
       const pattern = /\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g;
-      // Cria um array com MatchAll para pegar todas as correspodências de links no arquivo
       const matches = [...fileContent.matchAll(pattern)];
-      // Cria um objeto para especificar as informações que vai mostrar
       const objLinks = matches.map((link) => ({
         text: link[1],
         url: link[2],
-        file: path,
+        file: filePath,
       })
       )
       if(options.validate || options.stats){
@@ -28,7 +31,8 @@ function mdLinks(path, options) {
     }
       return objLinks;
     })
-  };
+}
+  
 
 function validateLink(link) {
   return fetch(link.url)

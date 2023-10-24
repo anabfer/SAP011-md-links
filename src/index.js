@@ -15,24 +15,29 @@ function mdLinks(filePath, options) {
         text: link[1],
         url: link[2],
         file: filePath,
-      })
-      )
+      }));
+      if (objLinks.length === 0) {
+        throw new Error('No links found in this file');
+      }
       if(options.validate || options.stats){
       const validations = objLinks.map((link) =>
           validateLink(link)
         )
       if (options.validate && !options.stats){
-        
         return Promise.all(validations);
-      }if (options.stats){
+      }else{
        return Promise.all(validations).then((validateArray)=> 
        statsLink(validateArray, options));
       }
     }
       return objLinks;
-    })
-}
-  
+    }).catch((error) => {
+      if (error.code === 'ENOENT') {
+        throw new Error('File/directory not found');
+      }
+      throw error;
+    });
+}  
 
 function validateLink(link) {
   return fetch(link.url)

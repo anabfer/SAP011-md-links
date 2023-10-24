@@ -46,12 +46,14 @@ mdLinks(filePath, options).then((objLinks) => {
   }
 }).catch((error) => {
   if (error.message === 'Unable to read the file because it is empty') {
-    console.log(chalk.yellow('Unable to read the file because it is empty'));
+    console.log(chalk.red('Unable to read the file because it is empty'));
   } else if (error.message === 'Incompatible file: not a Markdown file') {
     console.log(chalk.red('Incompatible file: not a Markdown file'));
   } else if (error.message === 'No links found in this file') {
     console.log(chalk.red('No links found in this file'));
-  } else {
+  } else if (error.message === 'File/directory not found'){
+    console.log(chalk.red('File/directory not found'));
+  }else {
     console.log(chalk.red('Invalid command'));
   }
 });

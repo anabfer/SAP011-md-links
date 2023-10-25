@@ -23,7 +23,7 @@ function mdLinks(filePath, options) {
       const validations = objLinks.map((link) =>
           validateLink(link)
         )
-      if (options.validate && !options.stats){
+      if(options.validate && !options.stats){
         return Promise.all(validations);
       }else{
        return Promise.all(validations).then((validateArray)=> 

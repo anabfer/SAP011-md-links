@@ -26,7 +26,7 @@ O Objetivo deste projeto é desenvolver uma biblioteca que lê arquivos Markdown
 
 
 ## 2. Fluxograma
-<img src='./assets/fluxograma.png' alt="fluxograma" width="700">
+<img src="./assets/fluxograma.png" alt="fluxograma" width="700">
 
 
 ## 3. Funcionalidades Principais
